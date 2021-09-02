@@ -60,7 +60,11 @@ namespace ContaBancaria.Autorizacoes.Api
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(s => s.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
+            app.UseSwaggerUI(s =>
+            {
+                //s.RoutePrefix = string.Empty;
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            });
 
             app.UseHttpsRedirection();
             app.UseMvc();

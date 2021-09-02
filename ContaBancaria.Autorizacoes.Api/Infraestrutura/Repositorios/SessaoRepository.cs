@@ -33,8 +33,10 @@ namespace ContaBancaria.Autorizacoes.Api.Infraestrutura.Repositorios
 
         public async  Task DestruirSessao(string chaveSessao)
         {
+            var tokenSessao = Guid.Parse(chaveSessao);
+
             var sessao = await _contexto.Sessoes.Where(
-                                _sessao => _sessao.Token.Equals(chaveSessao))
+                                _sessao => _sessao.Token.Equals(tokenSessao))
                                 .FirstOrDefaultAsync();
 
             sessao.IsAtivo = false;

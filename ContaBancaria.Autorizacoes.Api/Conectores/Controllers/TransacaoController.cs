@@ -21,14 +21,14 @@ namespace ContaBancaria.Autorizacoes.Api.Conectores.Controllers
             if (transacao.IsNotValido)
                 return BadRequest("Problemas ao autenticar o usuário. Verifique as credenciais e tente novamente!");
 
-            else if (string.IsNullOrWhiteSpace(transacao.Token.ToString()))
+            else if (string.IsNullOrWhiteSpace(transacao.Sessao?.Token.ToString()))
                 return BadRequest("Erro ao criar nova transação");
 
-            return Created("", transacao);
+            return Ok(transacao);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> FinalizarTransacao([FromBody] string chaveTransacao)
+        public async Task<IActionResult> FinalizarTransacao(string chaveTransacao)
         {
             if (await _transacaoService.DestruirTransacao(chaveTransacao))
                 return Ok();

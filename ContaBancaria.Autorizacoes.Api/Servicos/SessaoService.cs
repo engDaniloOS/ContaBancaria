@@ -26,7 +26,7 @@ namespace ContaBancaria.Autorizacoes.Api.Servicos
                 
                 var dispositivo = await _dispositivoRepository.GetDispositivoAtivoByChave(chaveDispositivo);
 
-                if (string.IsNullOrWhiteSpace(chaveDispositivo))
+                if (dispositivo == null)
                     return new Sessao();
 
                  return await _sessaoRepository.CriarNovaSessao(dispositivo);

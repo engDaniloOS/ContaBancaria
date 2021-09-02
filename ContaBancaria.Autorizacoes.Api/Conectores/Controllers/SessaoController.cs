@@ -19,7 +19,7 @@ namespace ContaBancaria.Autorizacoes.Api.Conectores.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CriarSessao([FromBody] string chaveDispositivo)
+        public async Task<IActionResult> CriarSessao(string chaveDispositivo)
         {
             var sessao = await _sessaoService.CriarSessao(chaveDispositivo);
 
@@ -29,11 +29,11 @@ namespace ContaBancaria.Autorizacoes.Api.Conectores.Controllers
             else if (string.IsNullOrWhiteSpace(sessao.Dispositivo.Chave))
                 return BadRequest("Dispositivo não cadastrado ou não autorizado para iniciar a sessão");
 
-            return Created(URL_TRANSACOES, sessao);
+            return Ok(sessao);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> FinalizarSessao([FromBody] string chaveSessao)
+        public async Task<IActionResult> FinalizarSessao(string chaveSessao)
         {
             if (await _sessaoService.DestruirSessao(chaveSessao))
                 return Ok();

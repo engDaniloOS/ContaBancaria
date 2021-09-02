@@ -25,14 +25,16 @@ namespace ContaBancaria.Autorizacoes.Api.Infraestrutura.Repositorios
                                                             _credenciais.IsAtivo && 
                                                             _credenciais.Senha.Equals(novaTransacaoDto.Senha));
 
-            if (string.IsNullOrWhiteSpace(credenciais.Usuario))
+            if (string.IsNullOrWhiteSpace(credenciais?.Usuario))
                 throw new NotSupportedException("Credenciais inválidas");
 
+            var tokenSessao = Guid.Parse(novaTransacaoDto.ChaveSessao);
+
             var sessao = await _contexto.Sessoes
-                                .FirstOrDefaultAsync(_sessao => _sessao.Token.Equals(novaTransacaoDto.ChaveSessao));
+                                .FirstOrDefaultAsync(_sessao => _sessao.Token.Equals(tokenSessao) && _sessao.IsAtivo);
 
             if (string.IsNullOrWhiteSpace(sessao.Token.ToString()))
-                throw new Exception("Transação inválida");
+                throw new Exception("Sessão inválida");
 
             var novaTransacao = new Transacao
             {
@@ -40,7 +42,8 @@ namespace ContaBancaria.Autorizacoes.Api.Infraestrutura.Repositorios
                 IsAtivo = true,
                 IsNotValido = false,
                 Token = Guid.NewGuid(),
-                Sessao = sessao
+                Sessao = sessao,
+                ClienteCredenciais = credenciais
             };
 
             await _contexto.Transacoes.AddAsync(novaTransacao);
@@ -51,8 +54,10 @@ namespace ContaBancaria.Autorizacoes.Api.Infraestrutura.Repositorios
 
         public async Task DestruirTransacao(string chaveTransacao)
         {
+            var tokenTransacao = Guid.Parse(chaveTransacao);
+
             var transacao = await _contexto.Transacoes
-                                            .FirstOrDefaultAsync(_transacao => _transacao.Token.Equals(chaveTransacao));
+                                            .FirstOrDefaultAsync(_transacao => _transacao.Token.Equals(tokenTransacao));
 
             transacao.IsAtivo = false;
 
