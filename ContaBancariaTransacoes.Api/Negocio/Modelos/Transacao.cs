@@ -11,8 +11,6 @@ namespace ContaBancaria.Transacoes.Api.Negocio.Modelos
         public ModalidadeTransacao Modalidade { get; set; }
         public Conta ContaOrigem { get; set; }
         public Conta ContaDestino { get; set; }
-        public decimal SaldoFinalOrigem { get; set; }
-        public decimal SaldoFinalDestino { get; set; }
         public decimal TaxaOrigem { get; set; }
         public decimal Valor { get; set; }
     }

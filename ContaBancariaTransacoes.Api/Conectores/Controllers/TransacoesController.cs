@@ -1,4 +1,5 @@
-﻿using ContaBancaria.Transacoes.Api.Negocio.Servicos;
+﻿using ContaBancaria.Transacoes.Api.Negocio.Modelos;
+using ContaBancaria.Transacoes.Api.Negocio.Servicos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,5 +19,13 @@ namespace ContaBancaria.Transacoes.Api.Conectores.Controllers
             _depositoService = depositoService;
         }
 
+        [HttpPost]
+        [Route("deposito")]
+        public Task<IActionResult> ExecutaDeposito()
+        {
+            //Transacao transacao = _depositoService.ExecutaDeposito(); 
+
+            return null;
+        }
     }
 }

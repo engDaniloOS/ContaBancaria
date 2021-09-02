@@ -8,5 +8,6 @@
         public decimal Saldo { get; set; }
         public ModalidadeConta Modalidade { get; set; }
         public Banco Banco { get; set; }
+        public long ClienteId { get; set; }
     }
 }
