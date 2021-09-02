@@ -1,4 +1,4 @@
-﻿namespace ContaBancaria.Autorizacoes.Api.Conectores.Controllers.Dtos
+﻿namespace ContaBancaria.Autorizacoes.Api.Servicos.Dtos
 {
     public class NovaTransacaoDto
     {

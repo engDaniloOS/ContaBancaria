@@ -1,5 +1,5 @@
-﻿using ContaBancaria.Autorizacoes.Api.Conectores.Controllers.Dtos;
-using ContaBancaria.Autorizacoes.Api.Negocio.Servicos;
+﻿using ContaBancaria.Autorizacoes.Api.Negocio.Servicos;
+using ContaBancaria.Autorizacoes.Api.Servicos.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

@@ -1,6 +1,6 @@
-﻿using ContaBancaria.Autorizacoes.Api.Conectores.Controllers.Dtos;
-using ContaBancaria.Autorizacoes.Api.Infraestrutura.BancoDeDados;
+﻿using ContaBancaria.Autorizacoes.Api.Infraestrutura.BancoDeDados;
 using ContaBancaria.Autorizacoes.Api.Negocio.Modelos;
+using ContaBancaria.Autorizacoes.Api.Servicos.Dtos;
 using ContaBancaria.Autorizacoes.Api.Servicos.Infraestrutura;
 using Microsoft.EntityFrameworkCore;
 using System;

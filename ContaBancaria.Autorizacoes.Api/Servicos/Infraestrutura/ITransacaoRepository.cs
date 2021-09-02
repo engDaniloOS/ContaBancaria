@@ -1,5 +1,5 @@
-﻿using ContaBancaria.Autorizacoes.Api.Conectores.Controllers.Dtos;
-using ContaBancaria.Autorizacoes.Api.Negocio.Modelos;
+﻿using ContaBancaria.Autorizacoes.Api.Negocio.Modelos;
+using ContaBancaria.Autorizacoes.Api.Servicos.Dtos;
 using System.Threading.Tasks;
 
 namespace ContaBancaria.Autorizacoes.Api.Servicos.Infraestrutura
