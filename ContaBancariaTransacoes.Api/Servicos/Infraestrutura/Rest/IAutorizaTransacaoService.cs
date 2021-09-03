@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace ContaBancaria.Transacoes.Api.Servicos.Infraestrutura.Rest
 {
     public interface IAutorizaTransacaoService
     {
-        string AutorizarDeposito(Guid sessao);
+        Task<Guid> AutorizarTransacao(string sessao, string usuario, string senha);
     }
 }

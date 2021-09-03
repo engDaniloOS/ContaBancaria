@@ -5,6 +5,8 @@ namespace ContaBancaria.Transacoes.Api.Servicos.Infraestrutura.Repositorios
 {
     public interface ITransacaoRepository
     {
-        Task<Transacao> ExecutaDeposito(Transacao transacao);
+        Task<Transacao> MovimentaSaldo(Transacao transacao);
+
+        Task<decimal> GetSaldo(int numeroConta, short agencia);
     }
 }

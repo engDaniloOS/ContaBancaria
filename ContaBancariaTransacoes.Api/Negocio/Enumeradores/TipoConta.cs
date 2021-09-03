@@ -2,6 +2,7 @@
 {
     public enum TipoConta
     {
+        GENERICA,
         CORRENTE,
         POUPANCA
     }

@@ -2,6 +2,7 @@
 {
     public enum TipoTransacao
     {
+        GENERICO,
         DEPOSITO,
         SAQUE,
         TRANSFERENCIA,

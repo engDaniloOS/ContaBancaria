@@ -6,6 +6,6 @@ namespace ContaBancaria.Transacoes.Api.Negocio.Servicos
 {
     public interface IDepositoService
     {
-        Task<Transacao> ExecutaDeposito(DepositoDto deposito, bool isCobrancaTaxa);
+        Task<Transacao> ExecutaDeposito(BaseTransacaoDto deposito, bool isCobrancaTaxa);
     }
 }

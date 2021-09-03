@@ -15,7 +15,17 @@ namespace ContaBancaria.Transacoes.Api.Infraestrutura.Repositorios
         private readonly Contexto _contexto;
         public TransacaoRepository(Contexto contexto) => _contexto = contexto;
 
-        public async Task<Transacao> ExecutaDeposito(Transacao transacao)
+        public async Task<decimal> GetSaldo(int numeroConta, short agencia)
+        {
+            var conta = await _contexto.Contas.FirstOrDefaultAsync(_conta =>
+                                    _conta.Agencia == agencia &&
+                                    _conta.Numero == numeroConta &&
+                                    _conta.IsAtiva);
+
+            return conta.Saldo;
+        }
+
+        public async Task<Transacao> MovimentaSaldo(Transacao transacao)
         {
             using (var dbTransaction = await _contexto.Database.BeginTransactionAsync())
             {
@@ -26,20 +36,25 @@ namespace ContaBancaria.Transacoes.Api.Infraestrutura.Repositorios
                         var tarifa = new Tarifa
                         {
                             Transacao = transacao.Token,
-                            Valor = transacao.Valor
+                            Valor = transacao.TaxaOrigem
                         };
 
                         await _contexto.Tarifas.AddAsync(tarifa);
                     }
 
-                    var contaDestino = await _contexto.Contas.FirstOrDefaultAsync(conta =>
-                                                        conta.Agencia == transacao.ContaDestino.Agencia &&
-                                                        conta.Numero == transacao.ContaDestino.Numero &&
-                                                        conta.IsAtiva);
+                    var conta = await _contexto.Contas.FirstOrDefaultAsync(_conta =>
+                                                        _conta.Agencia == transacao.ContaDestino.Agencia &&
+                                                        _conta.Numero == transacao.ContaDestino.Numero &&
+                                                        _conta.IsAtiva);
 
-                    contaDestino.Saldo += transacao.Valor;
+                    conta.Saldo += (transacao.Valor - transacao.TaxaOrigem);
+                    _contexto.Contas.Update(conta);
 
-                    transacao.SaldoDestino = contaDestino.Saldo;
+                    var modalidade = await _contexto.ModalidadesTransacao.FindAsync(transacao.Modalidade.Id);
+
+                    transacao.SaldoDestino = conta.Saldo;
+                    transacao.ContaDestino = conta;
+                    transacao.Modalidade = modalidade;
                     await _contexto.Transacoes.AddAsync(transacao);
 
                     await _contexto.SaveChangesAsync();
@@ -47,8 +62,9 @@ namespace ContaBancaria.Transacoes.Api.Infraestrutura.Repositorios
 
                     return transacao;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Console.WriteLine(ex);
                     dbTransaction.Rollback();
                     throw;
                 }
@@ -57,7 +73,6 @@ namespace ContaBancaria.Transacoes.Api.Infraestrutura.Repositorios
                     dbTransaction.Dispose();
                 }
             }
-
         }
     }
 }

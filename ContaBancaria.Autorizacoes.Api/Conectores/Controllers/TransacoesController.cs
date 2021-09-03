@@ -28,7 +28,7 @@ namespace ContaBancaria.Autorizacoes.Api.Conectores.Controllers
             {
                 transacao.Token,
                 transacao.DataCriacao,
-                transacao.Sessao
+                Sessao = transacao.Sessao.Token
             });
         }
 

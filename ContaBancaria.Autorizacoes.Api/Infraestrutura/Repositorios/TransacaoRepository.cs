@@ -33,7 +33,7 @@ namespace ContaBancaria.Autorizacoes.Api.Infraestrutura.Repositorios
             var sessao = await _contexto.Sessoes
                                 .FirstOrDefaultAsync(_sessao => _sessao.Token.Equals(tokenSessao) && _sessao.IsAtivo);
 
-            if (string.IsNullOrWhiteSpace(sessao.Token.ToString()))
+            if (string.IsNullOrWhiteSpace(sessao?.Token.ToString()) || sessao.Token == Guid.Empty)
                 throw new Exception("Sessão inválida");
 
             var novaTransacao = new Transacao
