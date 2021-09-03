@@ -7,12 +7,12 @@ namespace ContaBancaria.Autorizacoes.Api.Conectores.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SessaoController : ControllerBase
+    public class SessoesController : ControllerBase
     {
         private readonly string URL_TRANSACOES;
         private readonly ISessaoService _sessaoService;
 
-        public SessaoController(ISessaoService sessaoService, IConfiguration configuration)
+        public SessoesController(ISessaoService sessaoService, IConfiguration configuration)
         {
             _sessaoService = sessaoService;
             URL_TRANSACOES = configuration["Transacoes.URL"];
@@ -29,7 +29,11 @@ namespace ContaBancaria.Autorizacoes.Api.Conectores.Controllers
             else if (string.IsNullOrWhiteSpace(sessao.Dispositivo.Chave))
                 return BadRequest("Dispositivo não cadastrado ou não autorizado para iniciar a sessão");
 
-            return Ok(sessao);
+            return Ok(new
+            {
+                sessao.Token,
+                sessao.Dispositivo,
+            });
         }
 
         [HttpDelete]

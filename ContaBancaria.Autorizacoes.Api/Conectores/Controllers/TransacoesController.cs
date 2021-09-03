@@ -7,11 +7,11 @@ namespace ContaBancaria.Autorizacoes.Api.Conectores.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TransacaoController : ControllerBase
+    public class TransacoesController : ControllerBase
     {
         private readonly ITransacaoService _transacaoService;
 
-        public TransacaoController(ITransacaoService transacaoService) => _transacaoService = transacaoService;
+        public TransacoesController(ITransacaoService transacaoService) => _transacaoService = transacaoService;
 
         [HttpPost]
         public async Task<IActionResult> CriarTransacao([FromBody] NovaTransacaoDto novaTransacaoDto)
@@ -24,7 +24,12 @@ namespace ContaBancaria.Autorizacoes.Api.Conectores.Controllers
             else if (string.IsNullOrWhiteSpace(transacao.Sessao?.Token.ToString()))
                 return BadRequest("Erro ao criar nova transação");
 
-            return Ok(transacao);
+            return Ok(new
+            {
+                transacao.Token,
+                transacao.DataCriacao,
+                transacao.Sessao
+            });
         }
 
         [HttpDelete]
