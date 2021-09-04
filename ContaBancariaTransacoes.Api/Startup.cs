@@ -41,6 +41,7 @@ namespace ContaBancariaApp
             services.AddTransient<IAutorizaTransacaoService, AutorizaTransacaoService>();
             services.AddTransient<ISaqueService, SaqueService>();
             services.AddTransient<ITransferenciaService, TransferenciaService>();
+            services.AddTransient<IExtratoService, ExtratoService>();
             #endregion
 
             #region Swagger

@@ -1,8 +1,11 @@
 ﻿using ContaBancaria.Transacoes.Api.Infraestrutura.BancoDeDados;
+using ContaBancaria.Transacoes.Api.Negocio.Dtos;
 using ContaBancaria.Transacoes.Api.Negocio.Modelos;
 using ContaBancaria.Transacoes.Api.Servicos.Infraestrutura.Repositorios;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ContaBancaria.Transacoes.Api.Infraestrutura.Repositorios
@@ -14,12 +17,38 @@ namespace ContaBancaria.Transacoes.Api.Infraestrutura.Repositorios
 
         public async Task<decimal> GetSaldo(int numeroConta, short agencia)
         {
-            var conta = await _contexto.Contas.FirstOrDefaultAsync(_conta =>
-                                    _conta.Agencia == agencia &&
-                                    _conta.Numero == numeroConta &&
-                                    _conta.IsAtiva);
+            //var conta = await _contexto.Contas.FirstOrDefaultAsync(_conta =>
+            //                        _conta.Agencia == agencia &&
+            //                        _conta.Numero == numeroConta &&
+            //                        _conta.IsAtiva);
 
-            return conta.Saldo;
+            //return conta.Saldo;
+
+            return await (from conta in _contexto.Contas
+                          where conta.Agencia == agencia && 
+                          conta.Numero == numeroConta && 
+                          conta.IsAtiva
+                          select conta.Saldo).FirstOrDefaultAsync();
+        }
+
+        public async Task<Dictionary<long, List<Transacao>>> GetTransacoes(ExtratoRequestDto extratoDto)
+        {
+            var contaId = await (from conta in _contexto.Contas
+                                 where conta.Numero == extratoDto.NumeroConta && 
+                                 conta.Agencia == extratoDto.Agencia && 
+                                 conta.IsAtiva
+                                 select conta.Id).FirstOrDefaultAsync();
+
+            var transacoes = await _contexto.Transacoes
+                                        .Where(transacao => 
+                                            ((transacao.ContaOrigem.Id == contaId) || (transacao.ContaDestino.Id == contaId)) &&
+                                            ((transacao.Data >= extratoDto.DataInicio && transacao.Data <= extratoDto.DataFim)))
+                                        .Include(transacao => transacao.ContaDestino)
+                                        .Include(transacao => transacao.ContaOrigem)
+                                        .Include(transacao => transacao.Modalidade)
+                                        .ToListAsync();
+
+            return new Dictionary<long, List<Transacao>>(){{ contaId, transacoes }};
         }
 
         public async Task<Transacao> MovimentaSaldo(Transacao transacao)

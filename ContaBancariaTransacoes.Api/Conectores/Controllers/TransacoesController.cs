@@ -1,7 +1,9 @@
 ﻿using ContaBancaria.Transacoes.Api.Negocio.Dtos;
+using ContaBancaria.Transacoes.Api.Negocio.Modelos;
 using ContaBancaria.Transacoes.Api.Negocio.Servicos;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ContaBancaria.Transacoes.Api.Conectores.Controllers
@@ -13,20 +15,29 @@ namespace ContaBancaria.Transacoes.Api.Conectores.Controllers
         private readonly IDepositoService _depositoService;
         private readonly ISaqueService _saqueService;
         private readonly ITransferenciaService _transferenciaService;
+        private readonly IExtratoService _extratoService;
+
         public TransacoesController(IDepositoService depositoService,
                                     ISaqueService saqueService,
-                                    ITransferenciaService transferenciaService)
+                                    ITransferenciaService transferenciaService,
+                                    IExtratoService extratoService)
         {
             _depositoService = depositoService;
             _saqueService = saqueService;
             _transferenciaService = transferenciaService;
+            _extratoService = extratoService;
         }
 
         [HttpGet]
         [Route("extrato")]
-        public async Task<IActionResult> RecuperaExtrato([FromQuery] DateTime dataInicial, [FromQuery] int periodo)
+        public async Task<IActionResult> RecuperaExtrato([FromQuery] ExtratoRequestDto requisicaoExtrato)
         {
-            return null;
+            var extrato = await _extratoService.GetExtrato(requisicaoExtrato);
+
+            if (extrato.IsInvalid)
+                return BadRequest(extrato.Mensagem);
+
+            return Ok(extrato);
         }
 
         [HttpPost]

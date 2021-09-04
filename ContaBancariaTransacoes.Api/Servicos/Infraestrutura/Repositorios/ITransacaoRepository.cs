@@ -1,4 +1,6 @@
-﻿using ContaBancaria.Transacoes.Api.Negocio.Modelos;
+﻿using ContaBancaria.Transacoes.Api.Negocio.Dtos;
+using ContaBancaria.Transacoes.Api.Negocio.Modelos;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ContaBancaria.Transacoes.Api.Servicos.Infraestrutura.Repositorios
@@ -9,5 +11,6 @@ namespace ContaBancaria.Transacoes.Api.Servicos.Infraestrutura.Repositorios
 
         Task<decimal> GetSaldo(int numeroConta, short agencia);
         Task<Transacao> RealizaTransferencia(Transacao transacao);
+        Task<Dictionary<long, List<Transacao>>> GetTransacoes(ExtratoRequestDto extratoDto);
     }
 }

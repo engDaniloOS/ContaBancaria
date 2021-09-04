@@ -6,8 +6,6 @@ using ContaBancaria.Transacoes.Api.Servicos.Infraestrutura.Repositorios;
 using ContaBancaria.Transacoes.Api.Servicos.Infraestrutura.Rest;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ContaBancaria.Transacoes.Api.Servicos
