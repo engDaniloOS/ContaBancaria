@@ -7,18 +7,12 @@ using ContaBancaria.Transacoes.Api.Servicos.Infraestrutura.Repositorios;
 using ContaBancaria.Transacoes.Api.Servicos.Infraestrutura.Rest;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ContaBancariaApp
 {
@@ -46,6 +40,7 @@ namespace ContaBancariaApp
             services.AddTransient<ITransacaoRepository, TransacaoRepository>();
             services.AddTransient<IAutorizaTransacaoService, AutorizaTransacaoService>();
             services.AddTransient<ISaqueService, SaqueService>();
+            services.AddTransient<ITransferenciaService, TransferenciaService>();
             #endregion
 
             #region Swagger

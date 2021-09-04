@@ -1,6 +1,7 @@
 ﻿using ContaBancaria.Transacoes.Api.Negocio.Dtos;
 using ContaBancaria.Transacoes.Api.Negocio.Servicos;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace ContaBancaria.Transacoes.Api.Conectores.Controllers
@@ -19,6 +20,13 @@ namespace ContaBancaria.Transacoes.Api.Conectores.Controllers
             _depositoService = depositoService;
             _saqueService = saqueService;
             _transferenciaService = transferenciaService;
+        }
+
+        [HttpGet]
+        [Route("extrato")]
+        public async Task<IActionResult> RecuperaExtrato([FromQuery] DateTime dataInicial, [FromQuery] int periodo)
+        {
+            return null;
         }
 
         [HttpPost]
@@ -75,7 +83,19 @@ namespace ContaBancaria.Transacoes.Api.Conectores.Controllers
             if (transacao.IsInvalida)
                 return BadRequest(transacao.Mensagem);
 
-            return Ok();
+            return Ok(new
+            {
+                ContaOrigem = transacao.ContaOrigem.Numero,
+                AgenciaOrigem = transacao.ContaOrigem.Agencia,
+                ContaDestino = transacao.ContaDestino.Numero,
+                AgenciaDestino = transacao.ContaDestino.Agencia,
+                BancoDestino = transacao.ContaDestino.Banco.Nome,
+                transacao.Valor,
+                transacao.TaxaOrigem,
+                transacao.Data,
+                transacao.Sessao,
+                Transacao = transacao.Token
+            });
         }
     }
 }

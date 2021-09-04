@@ -28,22 +28,23 @@ namespace ContaBancaria.Transacoes.Api.Servicos
 
             try
             {
+                var baseTransacao = saque.BaseTransacao;
                 var taxaFixaSaque = decimal.Parse(_configuration["Saque:Taxa"]);
 
-                IsParametrosTransacaoValidos(saque.BaseTransacao);
+                IsParametrosTransacaoValidos(baseTransacao);
                 IsCredenciaisValidas(saque.Usuario, saque.Senha);
 
                 if (isCobrancaTaxa)
                     taxaSaque = taxaFixaSaque;
 
-                await IsSaldoSuficiente(saque, taxaSaque);
+                await IsSaldoSuficiente(baseTransacao.NumeroConta, baseTransacao.Agencia, baseTransacao.Valor, taxaSaque);
 
                 var maximoTentativasSaque = int.Parse(_configuration["Saque:MaximoTentativas"]);
-                VerificaConcorrenciaTransacoes(saque.BaseTransacao.NumeroConta, maximoTentativasSaque);
+                VerificaConcorrenciaTransacoes(baseTransacao.NumeroConta, maximoTentativasSaque);
 
-                var transacaoToken = await _autorizacaoService.AutorizarTransacao(saque.BaseTransacao.Sessao.ToString(), saque.Usuario, saque.Senha);
+                var transacaoToken = await _autorizacaoService.AutorizaTransacao(baseTransacao.Sessao.ToString(), saque.Usuario, saque.Senha);
 
-                var transacao = ConstroiTransacao(saque.BaseTransacao, TipoTransacao.SAQUE, transacaoToken.ToString(), taxaSaque);
+                var transacao = ConstroiTransacao(baseTransacao, TipoTransacao.SAQUE, transacaoToken.ToString(), taxaSaque);
 
                 return await _transacaoRepository.MovimentaSaldo(transacao);
             }
@@ -59,22 +60,6 @@ namespace ContaBancaria.Transacoes.Api.Servicos
             finally
             {
                 LiberaTransacoesDaConta(saque.BaseTransacao.NumeroConta);
-            }
-        }
-
-        private async Task IsSaldoSuficiente(SaqueDto saque, decimal taxaSaque)
-        {
-            try
-            {
-                var saldoContaAtual = await _transacaoRepository.GetSaldo(saque.BaseTransacao.NumeroConta, saque.BaseTransacao.Agencia);
-
-                if (saldoContaAtual < (taxaSaque + saque.BaseTransacao.Valor))
-                    throw new InvalidOperationException("Não há saldo suficiente para realizar a transação");
-            }
-            catch (NullReferenceException ex)
-            {
-                Console.WriteLine(ex);
-                throw new InvalidOperationException("Não foi possível encontrar a conta/Agência informada");
             }
         }
     }

@@ -34,7 +34,7 @@ namespace ContaBancaria.Transacoes.Api.Servicos
                 throw new InvalidOperationException("Sessão inválida. Tente novamente!");
 
             if (baseTransacao.Valor <= 0)
-                throw new InvalidOperationException("Deposito com valor menor ou igual a zero");
+                throw new InvalidOperationException("Transação com valor menor ou igual a zero");
 
             if (baseTransacao.Agencia == 0 || baseTransacao.NumeroConta == 0)
                 throw new InvalidOperationException("Nº de conta e/ou agência inválido(s)");
@@ -69,7 +69,7 @@ namespace ContaBancaria.Transacoes.Api.Servicos
             throw new TimeoutException("Existem transações ocorrendo em paralelo. Tente novamente mais tarde.");
         }
 
-        protected Transacao ConstroiTransacao(BaseTransacaoDto baseTransacao, TipoTransacao tipoTransacao, string transacaoToken, decimal taxaDeposito = 0)
+        protected virtual Transacao ConstroiTransacao(BaseTransacaoDto baseTransacao, TipoTransacao tipoTransacao, string transacaoToken, decimal taxaDeposito = 0)
         {
             var cnpjBancoOrigem = long.Parse(_configuration["Banco:CNPJ"]);
 
@@ -93,6 +93,22 @@ namespace ContaBancaria.Transacoes.Api.Servicos
                 Valor = valor,
                 Sessao = baseTransacao.Sessao
             };
+        }
+
+        protected async Task IsSaldoSuficiente(int numeroConta, short agencia, decimal valor, decimal taxa)
+        {
+            try
+            {
+                var saldoContaAtual = await _transacaoRepository.GetSaldo(numeroConta, agencia);
+
+                if (saldoContaAtual < (taxa + valor))
+                    throw new InvalidOperationException("Não há saldo suficiente para realizar a transação");
+            }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine(ex);
+                throw new InvalidOperationException("Não foi possível encontrar a conta/Agência informada");
+            }
         }
 
         protected void LiberaTransacoesDaConta(int numeroConta) => _transacaoService.LiberaContaParaTransacao(numeroConta);

@@ -14,7 +14,7 @@ namespace ContaBancaria.Transacoes.Api.Infraestrutura.Rest
         private readonly IConfiguration _configuration;
         public AutorizaTransacaoService(IConfiguration configuration) => _configuration = configuration;
 
-        public async Task<Guid> AutorizarTransacao(string sessao, string usuario, string senha)
+        public async Task<Guid> AutorizaTransacao(string sessao, string usuario, string senha)
         {
             try
             {

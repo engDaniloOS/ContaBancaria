@@ -8,5 +8,6 @@ namespace ContaBancaria.Transacoes.Api.Servicos.Infraestrutura.Repositorios
         Task<Transacao> MovimentaSaldo(Transacao transacao);
 
         Task<decimal> GetSaldo(int numeroConta, short agencia);
+        Task<Transacao> RealizaTransferencia(Transacao transacao);
     }
 }

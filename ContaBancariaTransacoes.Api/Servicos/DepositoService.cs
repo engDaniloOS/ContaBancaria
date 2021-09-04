@@ -36,7 +36,7 @@ namespace ContaBancaria.Transacoes.Api.Servicos
                 var maximoTentativasDeposito = int.Parse(_configuration["Deposito:MaximoTentativas"]);
                 VerificaConcorrenciaTransacoes(deposito.NumeroConta, maximoTentativasDeposito);
 
-                var transacaoToken = await _autorizacaoService.AutorizarTransacao(deposito.Sessao.ToString(), _configuration["Banco:Usuario"], _configuration["Banco:Senha"]);
+                var transacaoToken = await _autorizacaoService.AutorizaTransacao(deposito.Sessao.ToString(), _configuration["Banco:Usuario"], _configuration["Banco:Senha"]);
 
                 var transacao = ConstroiTransacao(deposito, TipoTransacao.DEPOSITO, transacaoToken.ToString(), taxaDeposito);
 
@@ -48,7 +48,7 @@ namespace ContaBancaria.Transacoes.Api.Servicos
                 return new Transacao
                 {
                     IsInvalida = true,
-                    Mensagem = $"Não foi possível encontrar a conta/Agência informada: {ex.Message}"
+                    Mensagem = $"Não foi possível encontrar a conta/agência informada: {ex.Message}"
                 };
             }
             catch (Exception ex)
