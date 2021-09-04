@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContaBancaria.Autorizacoes.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContaBancaria.Transacoes.Api", "ContaBancariaTransacoes.Api\ContaBancaria.Transacoes.Api.csproj", "{997A7524-B19F-47F4-95F1-71C27C85DAFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContaBancaria.Transacoes.Api.Test", "..\ContaBancaria.Transacoes.Api.Test\ContaBancaria.Transacoes.Api.Test.csproj", "{1BDC616B-3E6A-49D0-9D3B-474C3033F7DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContaBancaria.Transacoes.Api.Test", "ContaBancaria.Transacoes.Api.Test\ContaBancaria.Transacoes.Api.Test.csproj", "{2174FBD6-62C8-451B-BBD1-17D4F34376BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{997A7524-B19F-47F4-95F1-71C27C85DAFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{997A7524-B19F-47F4-95F1-71C27C85DAFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{997A7524-B19F-47F4-95F1-71C27C85DAFA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1BDC616B-3E6A-49D0-9D3B-474C3033F7DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BDC616B-3E6A-49D0-9D3B-474C3033F7DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1BDC616B-3E6A-49D0-9D3B-474C3033F7DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1BDC616B-3E6A-49D0-9D3B-474C3033F7DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2174FBD6-62C8-451B-BBD1-17D4F34376BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2174FBD6-62C8-451B-BBD1-17D4F34376BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2174FBD6-62C8-451B-BBD1-17D4F34376BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2174FBD6-62C8-451B-BBD1-17D4F34376BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
