@@ -17,13 +17,6 @@ namespace ContaBancaria.Transacoes.Api.Infraestrutura.Repositorios
 
         public async Task<decimal> GetSaldo(int numeroConta, short agencia)
         {
-            //var conta = await _contexto.Contas.FirstOrDefaultAsync(_conta =>
-            //                        _conta.Agencia == agencia &&
-            //                        _conta.Numero == numeroConta &&
-            //                        _conta.IsAtiva);
-
-            //return conta.Saldo;
-
             return await (from conta in _contexto.Contas
                           where conta.Agencia == agencia && 
                           conta.Numero == numeroConta && 
