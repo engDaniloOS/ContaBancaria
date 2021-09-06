@@ -46,7 +46,7 @@ Para facilitar a execução e testes, as APIs também estão documentadas com Sw
   "Agencia": short,
   "Sessao": "3fa85f64-5717-4562-b3fc-2c963f66afa6" (exemplo)
 }
-  * [Post] api/Transacoes/saque => Realiza o saque de determinado valor na conta informada. Para essa transação foi configurada uma taxa fixa sobre o saldo disponível na conta. Caso a soma ValorDeSaque + Taxa < Saldo, a transação não será finalizada e retornará erro. Os seguintes parâmetros deverão ser informados: 
+  * [Post] api/Transacoes/saque => Realiza o saque de determinado valor na conta informada. Para essa transação foi configurada uma taxa fixa sobre o saldo disponível na conta. Caso a soma ValorDeSaque + Taxa > Saldo, a transação não será finalizada e retornará erro. Os seguintes parâmetros deverão ser informados: 
   * {
   "Usuario": "string",
   "Senha": "string",
@@ -56,7 +56,7 @@ Para facilitar a execução e testes, as APIs também estão documentadas com Sw
     "Agencia": short,
     "Sessao": "3fa85f64-5717-4562-b3fc-2c963f66afa6" (exemplo)
   }
-  * [Post] api/Transacoes/transferencia => Realiza a transferência de determinado valor, entre as contas informadas (origem e destino). Para essa transação foi configurada uma taxa fixa sobre o saldo disponível na conta origem. Caso a soma ValorDeTransferência + Taxa < SaldoContaOrigem, a transação não finalizará, e retornará erro. Os seguintes parâmetros devem ser informados:
+  * [Post] api/Transacoes/transferencia => Realiza a transferência de determinado valor, entre as contas informadas (origem e destino). Para essa transação foi configurada uma taxa fixa sobre o saldo disponível na conta origem. Caso a soma ValorDeTransferência + Taxa > SaldoContaOrigem, a transação não finalizará, e retornará erro. Os seguintes parâmetros devem ser informados:
 {
   "Usuario": "string",
   "Senha": "string",
